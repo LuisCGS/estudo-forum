@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// DTO é usado para devolver apenas as informações externamento, diferença do form que apenas recebe
 public class TopicoDto {
     private Long id;
     private String titulo;
