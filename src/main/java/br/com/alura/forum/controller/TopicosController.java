@@ -1,5 +1,6 @@
 package br.com.alura.forum.controller;
 
+import br.com.alura.forum.controller.dto.DetalhesDoTopicoDto;
 import br.com.alura.forum.controller.dto.TopicoDto;
 import br.com.alura.forum.controller.form.TopicoForm;
 import br.com.alura.forum.model.Topico;
@@ -53,5 +54,12 @@ public class TopicosController {
         URI uri = uriBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new TopicoDto(topico));//create devolve o 201
+    }
+
+    @GetMapping("/{id}")
+    public DetalhesDoTopicoDto detalhar(@PathVariable Long id) {
+        Topico topico = topicoRepository.getOne(id);
+
+        return new DetalhesDoTopicoDto(topico);
     }
 }
