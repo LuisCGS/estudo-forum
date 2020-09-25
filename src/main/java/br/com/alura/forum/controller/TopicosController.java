@@ -50,6 +50,7 @@ public class TopicosController {
 
     //Deve devolver 201 que significa SUCESSO / CRIADO
     @PostMapping("/cadastrar")
+    @Transactional
     public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm topicoForm, UriComponentsBuilder uriBuilder) {
         Topico topico = topicoForm.converter(cursoRepository);
         topicoRepository.save(topico);
@@ -73,5 +74,13 @@ public class TopicosController {
         Topico topico = topicoForm.topicoComNovosDados(id, topicoRepository);
 
         return ResponseEntity.ok(new TopicoDto(topico));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> remover(@PathVariable Long id) {
+        topicoRepository.deleteById(id);
+
+        return ResponseEntity.ok().build();
     }
 }
