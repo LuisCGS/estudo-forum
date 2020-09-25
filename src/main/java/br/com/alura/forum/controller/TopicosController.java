@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class TopicosController {
 
     //Deve devolver 201 que significa SUCESSO / CRIADO
     @PostMapping("/cadastrar")
-    public ResponseEntity<TopicoDto> cadastrar(@RequestBody TopicoForm topicoForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm topicoForm, UriComponentsBuilder uriBuilder) {
         Topico topico = topicoForm.converter(cursoRepository);
         topicoRepository.save(topico);
 
