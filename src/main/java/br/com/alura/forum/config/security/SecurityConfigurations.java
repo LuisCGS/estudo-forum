@@ -17,7 +17,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/topico").permitAll()
                 .antMatchers(HttpMethod.GET, "/topico/*").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().formLogin();
     }
 
     // Configurações de autenticação (login)
