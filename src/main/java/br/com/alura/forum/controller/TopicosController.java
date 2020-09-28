@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,11 +40,12 @@ public class TopicosController {
 //    public List<TopicoDto> lista(@PathVariable(value = "nomeCurso", required = false) Optional<String> nomeCurso){
     @GetMapping()
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
-                @RequestParam int pagina, @RequestParam int quantidade, @RequestParam() String campoOrdenacao) {
+//                @RequestParam int pagina, @RequestParam int quantidade, @RequestParam() String campoOrdenacao) {
+                                 /* Se não vier ele torna essa anotação como padrao*/@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable paginacao) {
 //        Topico topico = new Topico("Dúvida", "Dúvida com Spring", new Curso("Spring","Programação"));
 //        return TopicoDto.converter(Arrays.asList(topico, topico));
 
-        Pageable paginacao = PageRequest.of(pagina, quantidade, Sort.Direction.DESC, campoOrdenacao);
+//        Pageable paginacao = PageRequest.of(pagina, quantidade, Sort.Direction.DESC, campoOrdenacao);
 
         if (nomeCurso == null) {
             return TopicoDto.converter(topicoRepository.findAll(paginacao));
