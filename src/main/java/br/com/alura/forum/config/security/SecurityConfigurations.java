@@ -1,5 +1,6 @@
 package br.com.alura.forum.config.security;
 
+import br.com.alura.forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Override
     @Bean // O Spring reconhece que esse método devolve o authenticationmanager, e conseguimos injetar no nosso autenticacaocontroller
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -40,7 +44,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 //.and().formLogin(); Cria uma sessão, e não é a ideia quando se usa API, deve ser stateless
                 .and().csrf().disable() /*Cross Site Request Forgery - Tipo de ataque hacker de aplicações web mas como a validação nossa é via token então é desabilitado */
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Avisa pro SpringSecurity que não é pra criar uma sessão
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService) /* como essa classe n consegue fazer injeção via spring passamos no construtor*/, UsernamePasswordAuthenticationFilter.class); //Antes de qualquer coisa rode o AutenticacaoViaTokenFilter
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository) /* como essa classe n consegue fazer injeção via spring passamos no construtor*/, UsernamePasswordAuthenticationFilter.class); //Antes de qualquer coisa rode o AutenticacaoViaTokenFilter
     }
 
     // Configurações de autenticação (login)
