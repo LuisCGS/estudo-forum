@@ -12,12 +12,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity // Habilita o modulo de segurança na aplicação
 @Configuration // Diz que no startup da aplicação o Spring irá carregar e ler as infos desta class
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private AutenticacaoService autenticacaoService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     @Bean // O Spring reconhece que esse método devolve o authenticationmanager, e conseguimos injetar no nosso autenticacaocontroller
@@ -35,7 +39,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 //.and().formLogin(); Cria uma sessão, e não é a ideia quando se usa API, deve ser stateless
                 .and().csrf().disable() /*Cross Site Request Forgery - Tipo de ataque hacker de aplicações web mas como a validação nossa é via token então é desabilitado */
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Avisa pro SpringSecurity que não é pra criar uma sessão
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Avisa pro SpringSecurity que não é pra criar uma sessão
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService) /* como essa classe n consegue fazer injeção via spring passamos no construtor*/, UsernamePasswordAuthenticationFilter.class); //Antes de qualquer coisa rode o AutenticacaoViaTokenFilter
     }
 
     // Configurações de autenticação (login)
