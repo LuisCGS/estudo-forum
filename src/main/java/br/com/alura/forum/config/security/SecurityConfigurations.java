@@ -38,6 +38,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/topico").permitAll()
+                .antMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/topico/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
@@ -55,8 +57,18 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     }
 
     // Configuraões de recursos estaticos (js, CSS, imagens)
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/**.html", // libera Todas requisições que devolvam html
+//                "/v2/api-docs",
+//                "/webjars/**",
+//                "/configuration/**",
+//                "/swagger-resources/**");
+//    }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
+        web.ignoring()
+                .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/h2-console/**");
     }
+
 }
