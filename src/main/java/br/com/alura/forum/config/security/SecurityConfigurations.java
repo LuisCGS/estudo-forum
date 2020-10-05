@@ -43,6 +43,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/topico/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/topico/*").hasRole("MODERADOR")
                 .anyRequest().authenticated()
                 //.and().formLogin(); Cria uma sessão, e não é a ideia quando se usa API, deve ser stateless
                 .and().csrf().disable() /*Cross Site Request Forgery - Tipo de ataque hacker de aplicações web mas como a validação nossa é via token então é desabilitado */
