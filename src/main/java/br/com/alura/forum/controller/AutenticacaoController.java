@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@Profile("prod")
+@Profile(value={"prod","test"})
 public class AutenticacaoController {
     @Autowired
     private AuthenticationManager authenticationManager; // N vem configurada para injeção de dependencia

@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity // Habilita o modulo de segurança na aplicação
 @Configuration // Diz que no startup da aplicação o Spring irá carregar e ler as infos desta class
-@Profile("prod")
+@Profile(value={"prod","test"})
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private AutenticacaoService autenticacaoService;
