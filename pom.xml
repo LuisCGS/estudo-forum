@@ -98,6 +98,8 @@
 	</dependencies>
 
 	<build>
+		<!-- Define o nome do arquivo final .jar -->
+		<finalName>forum</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
